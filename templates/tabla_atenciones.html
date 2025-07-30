@@ -1,0 +1,46 @@
+<table class="table table-bordered table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>DNI</th>
+            <th>Edad</th>
+            <th>Programa</th>
+            <th>Semestre</th>
+            <th>Turno</th>
+            <th>Fecha</th>
+            <th>Profesional</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in atenciones %}
+        <tr>
+            <td>{{ a.nombres }} {{ a.apellido_paterno }} {{ a.apellido_materno }}</td>
+            <td>{{ a.dni }}</td>
+            <td>{{ a.edad }}</td>
+            <td>{{ a.programa_estudios }}</td>
+            <td>{{ a.semestre }}</td>
+            <td>{{ a.turno }}</td>
+            <td>{{ a.fecha_atencion.strftime('%d/%m/%Y') }}</td>
+            <td>{{ a.nombre_profesional }}</td>
+            <td class="text-nowrap">
+                <!-- ✅ NUEVO: Botón Generar Constancia -->
+                <a href="/constancia/{{ a.id }}" class="btn btn-sm btn-info">📄 Constancia</a>
+
+                <!-- Botón Editar (si lo tienes implementado) -->
+                <a href="/profesional/atencion/editar/{{ a.id }}" class="btn btn-sm btn-warning">✏️</a>
+
+                <!-- Botón Eliminar -->
+                <a href="/profesional/atencion/eliminar/{{ a.id }}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('¿Seguro que deseas eliminar esta atención?')">🗑️</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="9" class="text-center">No se encontraron resultados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+

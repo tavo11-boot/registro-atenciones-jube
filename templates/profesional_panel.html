@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel del Profesional</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <a href="/profesional/cambiar_contrasena" class="btn btn-warning btn-sm">Cambiar Contraseña</a>
+
+
+    <style>
+        @media print {
+            form, .btn, nav, header {
+                display: none !important;
+            }
+            table {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Panel del Profesional</h3>
+            <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
+        </div>
+
+        <!-- Registro de atención -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">Registrar nueva atención</div>
+            <div class="card-body">
+                <form method="POST" action="/profesional/atencion" class="row g-2">
+                    <div class="col-md-3"><input name="nombres" class="form-control" placeholder="Nombres" required></div>
+                    <div class="col-md-3"><input name="apellido_paterno" class="form-control" placeholder="Apellido paterno" required></div>
+                    <div class="col-md-3"><input name="apellido_materno" class="form-control" placeholder="Apellido materno" required></div>
+                    <div class="col-md-3"><input name="dni" class="form-control" placeholder="DNI" required></div>
+                    <div class="col-md-2"><input name="edad" class="form-control" type="number" placeholder="Edad" required></div>
+                    <div class="col-md-3">
+                        <select name="programa_estudios" class="form-select" required>
+                            <option disabled selected>Programa de estudios</option>
+                            <option>Construcción Civil</option>
+                            <option>Contabilidad</option>
+                            <option>Desarrollo de Sistemas de Información</option>
+                            <option>Electricidad Industrial</option>
+                            <option>Electrónica Industrial</option>
+                            <option>Mecánica de Producción Industrial</option>
+                            <option>Mecánica Automotriz</option>
+                            <option>Producción Agropecuaria</option>
+                            <option>Asistencia Administrativa</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="semestre" class="form-select" required>
+                            <option disabled selected>Semestre</option>
+                            <option>I</option><option>II</option><option>III</option><option>IV</option><option>V</option><option>VI</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="turno" class="form-select" required>
+                            <option disabled selected>Turno</option>
+                            <option>Día</option>
+                            <option>Noche</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12"><textarea name="motivo" class="form-control" placeholder="Motivo de atención" required></textarea></div>
+                    <div class="col-md-12"><textarea name="tratamiento" class="form-control" placeholder="Tratamiento" required></textarea></div>
+                    <div class="col-md-12 text-end">
+                        <button type="submit" class="btn btn-primary">Registrar atención</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabla de atenciones -->
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <span>Listado de Atenciones</span>
+                <button class="btn btn-light btn-sm" onclick="window.print()">🖨️ Imprimir / Exportar PDF</button>
+            </div>
+            <div class="card-body">
+
+                <!-- Filtros -->
+                <form id="filtro-form" class="row g-2 mb-3">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="nombre" placeholder="Nombre o apellido">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="dni" placeholder="DNI">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" class="form-control" name="fecha">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-secondary w-100" type="submit">🔍 Filtrar</button>
+                    </div>
+                </form>
+
+                <!-- Tabla AJAX -->
+                <div id="tabla-atenciones">
+                    {% include 'tabla_atenciones.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('filtro-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const datos = new URLSearchParams(new FormData(form));
+
+        fetch('/profesional/filtrar?' + datos.toString())
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('tabla-atenciones').innerHTML = html;
+            });
+    });
+    </script>
+
+</body>
+</html>
+

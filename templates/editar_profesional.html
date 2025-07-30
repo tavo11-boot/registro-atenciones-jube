@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Profesional</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h3>Editar Profesional</h3>
+        <form method="POST" action="/admin/profesionales/editar/{{ profesional.id }}" class="row g-3 mt-3">
+            <div class="col-md-4">
+                <input name="nombres" value="{{ profesional.nombres }}" class="form-control" placeholder="Nombres" required>
+            </div>
+            <div class="col-md-4">
+                <input name="apellido_paterno" value="{{ profesional.apellido_paterno }}" class="form-control" placeholder="Apellido paterno" required>
+            </div>
+            <div class="col-md-4">
+                <input name="apellido_materno" value="{{ profesional.apellido_materno }}" class="form-control" placeholder="Apellido materno" required>
+            </div>
+            <div class="col-md-3">
+                <input name="dni" value="{{ profesional.dni }}" class="form-control" placeholder="DNI" required>
+            </div>
+            <div class="col-md-3">
+                <input name="colegiatura" value="{{ profesional.colegiatura }}" class="form-control" placeholder="Colegiatura">
+            </div>
+            <div class="col-md-3">
+                <select name="area" class="form-select" required>
+                    <option value="odontología" {% if profesional.area == 'odontología' %}selected{% endif %}>Odontología</option>
+                    <option value="psicología" {% if profesional.area == 'psicología' %}selected{% endif %}>Psicología</option>
+                    <option value="enfermería" {% if profesional.area == 'enfermería' %}selected{% endif %}>Enfermería</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="password" name="contrasena" class="form-control" placeholder="Nueva contraseña (opcional)">
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+                <a href="/admin" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

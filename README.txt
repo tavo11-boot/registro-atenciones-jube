@@ -1,0 +1,1 @@
+Proyecto Flask + MySQL para el centro JUBE - IESTP Pedro P. Díaz
